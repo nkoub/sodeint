@@ -16,7 +16,7 @@
 #include <fstream>
 #include <boost/numeric/odeint.hpp>
 #include <boost/random.hpp>
-
+#include <ctime>
 #include "/home/nikos/nkcpplibs/sodeint/stochastic_euler.h"
 #include "ornsteinuhlenbeck_class.h"
 
@@ -32,7 +32,8 @@ int main (int argc, char* argv[]) {
     // initialize state array
     state_type v0;        
     boost::random::mt19937 rng;     // random number generator
-    rng.seed(seed);                     
+    // rng.seed(seed);                
+    rng.seed(static_cast<unsigned int>(std::time(0)));     
     boost::random::uniform_real_distribution<double> uni_rand(0,1);
 
     for (size_t i=0; i<oup.N; ++i) {
