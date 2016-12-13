@@ -1,12 +1,12 @@
 /***********************************************************************
-* File        : ornsteinuhlenbeck_ring.cpp
+* File        : ornsteinuhlenbeck.cpp
 * Author      : Nikos E Kouavris
 * Date        : 07/12/2016
 * Update      : 12/12/2016
 * Copyright   : GPL
 * Description : Ornstein-Uhlenbeck process
 *
-* build : g++ -std=c++11 -Ofast ornsteinuhlenbeck_ring.cpp -o test.run
+* build : g++ -std=c++11 -Ofast ornsteinuhlenbeck.cpp -o test.run
 * run   : ./test.run  
 ***********************************************************************/
 
