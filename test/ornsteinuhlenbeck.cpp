@@ -17,7 +17,7 @@
 #include <boost/numeric/odeint.hpp>
 #include <boost/random.hpp>
 
-#include "/home/nikos/nkcpplibs/sodeint/stochastic_heun.h"
+#include "/home/nikos/nkcpplibs/sodeint/stochastic_euler.h"
 #include "ornsteinuhlenbeck_class.h"
 
 
@@ -49,11 +49,11 @@ int main (int argc, char* argv[]) {
     auto ornsteinuhlenbeck = make_pair(ornsteinuhlenbeck_det(),ornsteinuhlenbeck_stoch());
 
     // Define the integrator stepper 
-    StochasticHeun<v0.size()> integrator(seed);
+    StochasticEuler<v0.size()> integrator(seed);
 
 
-    const double dt = 0.01;     
-    const double tmax = 10.0;          // real time
+    const double dt = 0.1;     
+    const double tmax = 1.0;          // real time
     size_t int_steps = tmax / dt;      // integration steps
     double t = 0.0;
 

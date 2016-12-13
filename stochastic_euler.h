@@ -14,6 +14,7 @@
 #include <array>
 #include <boost/numeric/odeint.hpp>
 #include <boost/random.hpp>
+// #include <ctime>
 
 boost::random::mt19937 RNG_EULER; // Random Number Generator for Euler
 
@@ -30,7 +31,12 @@ private:
 public:
 	typedef std::array <double,NEQ> state_type;
 	typedef boost::numeric::odeint::stepper_tag stepper_category;
-	StochasticEuler (int seed) { RNG_EULER.seed(seed); } 			// seed for RNG_EULER   	
+	
+	StochasticEuler (int seed) { 
+		RNG_EULER.seed(seed); 
+		// RNG_EULER.seed(static_cast<unsigned int>(std::time(0)));
+	} 			
+
 	~StochasticEuler () {}
     
 	template <class S>
@@ -68,7 +74,12 @@ private:
 public:
 	typedef std::array <double,NEQ> state_type;
 	typedef boost::numeric::odeint::stepper_tag stepper_category;
-	StochasticEulerPC (int seed) { RNG_EULER.seed(seed); } 	// seed for RNG_EULER   	
+	
+	StochasticEulerPC (int seed) { 
+		RNG_EULER.seed(seed); 
+		// RNG_EULER.seed(static_cast<unsigned int>(std::time(0)));
+	} 
+
 	~StochasticEulerPC () {}   	
 
 	template <class S>
