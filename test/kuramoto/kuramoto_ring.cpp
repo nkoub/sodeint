@@ -1,6 +1,6 @@
 /***********************************************************************
 * File        : kuramoto_ring.cpp
-* Author      : Nikos E. Kouavris
+* Author      : Nikos E. Kouvaris
 * Date        : 02/12/2016
 * Update      : 15/12/2016
 * Copyright   : GPL
@@ -60,7 +60,7 @@ int main (int argc, char* argv[]) {
     cout << "Solve " << v0.size() << " equations in a system of " << kurp.N << " nodes...\n";
     
 
-    
+
     // System's parameters
     kurp.noise_intensity = 0.01; 
     kurp.coupling = 0.08;
