@@ -1,8 +1,9 @@
 /*********************************************************************************
 * File        : stochastic_heun.h
-* Author      : Nikos E Kouavris
+* Author      : Nikos E Kouvaris
+* E-mail 	  : nkouba@gmail.com
 * Date        : 17/11/2016
-* Update      : 21/11/2016
+* Update      : 15/12/2016
 * Copyright   : GPL
 * Description : Heun integrator for Stochastic ODEs with additive white noise.
 *               (also called as Improved Euler, Euler-Heun, Heun, or Runge-Kutta 2nd order)

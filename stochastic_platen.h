@@ -1,9 +1,9 @@
 /************************************************************
 * File        : stochastic_platen.h
-* Author      : Nikos E Kouavris
+* Author      : Nikos E Kouvaris
 * E-mail 	  : nkouba@gmail.com
 * Date        : 17/11/2016
-* Update      : 21/11/2016
+* Update      : 15/12/2016
 * Description : Explicit Platen integrator for Stochastic ODEs 
 *				to be used within boost::odeint
 ************************************************************/

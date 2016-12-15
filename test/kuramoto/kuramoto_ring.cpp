@@ -1,6 +1,7 @@
 /***********************************************************************
 * File        : kuramoto_ring.cpp
-* Author      : Nikos E. Kouvaris
+* Author      : Nikos E Kouvaris
+* E-mail      : nkouba@gmail.coms
 * Date        : 02/12/2016
 * Update      : 15/12/2016
 * Copyright   : GPL
