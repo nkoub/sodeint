@@ -60,7 +60,7 @@ int main (int argc, char* argv[]) {
     cout << "Solve " << v0.size() << " equations in a system of " << kurp.N << " nodes...\n";
     
     // System's parameters
-    kurp.noise_intensity = 0.0; 
+    kurp.noise_intensity = 0.01; 
     kurp.coupling = 0.08;
     kurp.omega.fill(0.5);
     kurp.adj_mat = ring_network(kurp.N);
@@ -87,7 +87,7 @@ int main (int argc, char* argv[]) {
     vector<state_type> states;
 
     const double dt = 0.1;     
-    const double tmax = 50.0;      // real time
+    const double tmax = 150.0;      // real time
     size_t total_time = tmax / dt;  // integration steps
     size_t shift_time = 0.0;//total_time/2.0;
     double stream_step = 1.0;
