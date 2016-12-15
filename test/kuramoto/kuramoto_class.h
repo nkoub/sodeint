@@ -1,7 +1,7 @@
 /***********************************************************************
  *  File        : kuramoto_class.h
- * Author      : Nikos E Kouvaris
- * E-mail      : nkouba@gmail.com
+ *  Author      : Nikos E Kouvaris
+ *  E-mail      : nkouba@gmail.com
  *  Date        : 02/12/2016
  *  Update      : 15/12/2016
  *  Copyright   : GPL

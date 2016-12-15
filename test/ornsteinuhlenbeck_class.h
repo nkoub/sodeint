@@ -1,6 +1,7 @@
 /***********************************************************************
  *  File        : ornsteinuhlenbeck_class.h
  *  Author      : Nikos E Kouvaris
+ *  E-mail      : nkouba@gmail.com
  *  Date        : 07/12/2016
  *  Update      : 12/12/2016
  *  Copyright   : GPL
