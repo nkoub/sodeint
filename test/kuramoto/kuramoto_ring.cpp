@@ -1,6 +1,6 @@
 /***********************************************************************
-* File        : fhn_ring.cpp
-* Author      : Nikos Kouavris
+* File        : kuramoto_ring.cpp
+* Author      : Nikos E. Kouavris
 * Date        : 02/12/2016
 * Update      : 15/12/2016
 * Copyright   : GPL
@@ -52,23 +52,32 @@ int main (int argc, char* argv[]) {
     state_type v0;        
     boost::random::mt19937 rng;     // random number generator
     rng.seed(seed);                     
-    boost::random::normal_distribution<double> normal_rand(0.0,1.0);
+    // boost::random::normal_distribution<double> normal_rand(0.0,1.0);
     boost::random::uniform_real_distribution<double> uni_rand(0,1);
 
     for (size_t i=0; i<kurp.N; ++i) v0[i] = uni_rand(rng);
   
     cout << "Solve " << v0.size() << " equations in a system of " << kurp.N << " nodes...\n";
     
+
+    
     // System's parameters
     kurp.noise_intensity = 0.01; 
     kurp.coupling = 0.08;
     kurp.omega.fill(0.5);
+
+
+
+    // You may load the adjacency matrix of any other network
+    // instead of the ring I used here
     kurp.adj_mat = ring_network(kurp.N);
+
+
 
     // folder and files to work with
     string folder = "./";
     string prefix = str(boost::format("ring_N%d_D%.4f_coupling%.5f")
-                                 %kurp.N%kurp.noise_intensity%kurp.coupling);
+                         %kurp.N%kurp.noise_intensity%kurp.coupling);
     string subfix = ".out";   
     ofstream fout_states(folder + prefix + "_states" + subfix);
     ofstream fout_times(folder + prefix + "_times" + subfix);
@@ -76,11 +85,15 @@ int main (int argc, char* argv[]) {
     cout << "The files will have the prefix: " << prefix << "\n\n";
     cout << "start the integration...\n";
 
+
+
     // Construct an object as a pair of the classes kuramoto_det and kuramoto_stoch
     auto kuramoto = make_pair(kuramoto_det(),kuramoto_stoch());
 
+
     // Define the integrator stepper 
     StochasticHeun<v0.size()> integrator(seed);
+
 
 
     vector<double> times;
@@ -92,6 +105,8 @@ int main (int argc, char* argv[]) {
     size_t shift_time = 0.0;//total_time/2.0;
     double stream_step = 1.0;
     double t = 0.0;
+
+
 
     // Integration loop
     for (size_t it=0; it<(total_time); ++it) {
@@ -105,6 +120,8 @@ int main (int argc, char* argv[]) {
     }
 
     cout << "real integration time: " << t << ",  integration steps: " << total_time << "\n";
+
+
 
     // save times
     for (double tt : times) {
