@@ -1,2 +1,2 @@
 # sodeint
-Solving initial value problems of stochastic ordinary differential equations in c++ using Boost.numeric.odeint
+A collection of integrators for solving initial value problems of stochastic ordinary differential equations in C++ using boost::numeric::odeint

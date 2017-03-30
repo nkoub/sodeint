@@ -3,10 +3,10 @@
 * Author      : Nikos E Kouvaris
 * E-mail 	  : nkouba@gmail.com
 * Date        : 17/11/2016
-* Update      : 15/12/2016
+* Update      : 30/03/2017
 * Copyright   : GPL
 * Description : Euler and Euler-Predictor-Corrector integrators 
-*				for Stochastic ODEs with additive white noise.
+*				for Stochastic ODEs with additive Gaussian noise.
 *********************************************************************************/
 #ifndef _STOCHASTIC_EULER_H_
 #define _STOCHASTIC_EULER_H_
@@ -24,23 +24,33 @@ boost::random::mt19937 RNG_EULER; // Random Number Generator for Euler
 *******************************************************/
 // NEQ: number of Equations
 // e.g., NEQ=20 for a network of 10 nodes with dynamics in each node given by 2 odes 
+
 template <size_t NEQ>
-class StochasticEuler {
+class StochasticEuler 
+{
 private:
 	// boost::random::mt19937 RNG_EULER;
 public:
 	typedef std::array <double,NEQ> state_type;
 	typedef boost::numeric::odeint::stepper_tag stepper_category;
-	StochasticEuler (int seed) { RNG_EULER.seed(seed); } 			// seed for RNG_EULER   	
+	
+	StochasticEuler (int seed) 
+	{ 
+		RNG_EULER.seed(seed); 		// seed for RNG_EULER
+	} 	
+	
 	~StochasticEuler () {}
     
 	template <class S>
-	void do_step(S system, state_type& v0, double t, const double dt) const {
+	void do_step(S system, state_type& v0, double t, const double dt) const 
+	{
 		// define Gaussian noise generator  
     	boost::random::normal_distribution<double> gaussian_noise(0.0,1.0);	 
+    	
     	// and generate white noise for every node i
-    	state_type noise;
-		for (size_t i=0; i<NEQ; ++i) {
+    	state_type noise;		
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			noise[i] = gaussian_noise(RNG_EULER);
 		}
 	
@@ -50,11 +60,13 @@ public:
 		system.second(v0,stoch);		
   
 		// do one integration step
-		for (size_t i=0; i<NEQ; ++i) {
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			v0[i] += det[i] * dt + stoch[i] * noise[i] * sqrt(dt);
 		}
 	}
 }; //:~StochasticEuler
+
 
 
 /*************************************************************************
@@ -63,22 +75,30 @@ public:
 // NEQ: number of Equations
 // e.g., NEQ=20 for a network of 10 nodes with dynamics in each node given by 2 odes 
 template <size_t NEQ>
-class StochasticEulerPC {
+class StochasticEulerPC 
+{
 private:
 	// boost::random::mt19937 RNG_EULER;
 public:
 	typedef std::array <double,NEQ> state_type;
 	typedef boost::numeric::odeint::stepper_tag stepper_category;
-	StochasticEulerPC (int seed) { RNG_EULER.seed(seed); } 	// seed for RNG_EULER   	
+	
+	StochasticEulerPC (int seed) 
+	{ 
+		RNG_EULER.seed(seed); // seed for RNG_EULER
+	}
+
 	~StochasticEulerPC () {}   	
 
 	template <class S>
-	void do_step(S system, state_type& v0, double t, const double dt) const {
+	void do_step(S system, state_type& v0, double t, const double dt) const 
+	{
 		// define Gaussian noise generator  
     	boost::random::normal_distribution<double> gaussian_noise(0.0,1.0);	 
     	// and generate white noise for every node i
     	state_type noise;
-		for (size_t i=0; i<NEQ; ++i) {
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			noise[i] = gaussian_noise(RNG_EULER);
 		}
 
@@ -89,7 +109,8 @@ public:
 
 		// Predictor: do one integration step
 		state_type v0_hat;
-		for (size_t i=0; i<NEQ; ++i) {
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			v0_hat[i] = v0[i] + det[i] * dt + stoch[i] * noise[i] * sqrt(dt);
 		}
 		
@@ -100,8 +121,9 @@ public:
 		// system.second(v0_hat,stoch_hat);
 		
 		// Corrector: do one integration step
-		for (size_t i=0; i<NEQ; ++i) {
-			v0[i] += 0.5 * (det_hat[i] + det[i]) * dt + stoch[i] * noise[i] * sqrt(dt);
+		for (size_t i=0; i<NEQ; ++i) 
+		{
+			v0[i] += 0.5 * (det_hat[i]+det[i]) * dt + stoch[i] * noise[i] * sqrt(dt);
 		}
 	}
 }; //:~StochasticEulerPC

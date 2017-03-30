@@ -3,9 +3,9 @@
 * Author      : Nikos E Kouvaris
 * E-mail 	  : nkouba@gmail.com
 * Date        : 17/11/2016
-* Update      : 15/12/2016
+* Update      : 30/03/2017
 * Copyright   : GPL
-* Description : Heun integrator for Stochastic ODEs with additive white noise.
+* Description : Heun integrator for Stochastic ODEs with additive Gaussian noise.
 *               (also called as Improved Euler, Euler-Heun, Heun, or Runge-Kutta 2nd order)
 *********************************************************************************/
 #ifndef _STOCHASTIC_HEUN_H_
@@ -26,22 +26,28 @@ boost::random::mt19937 RNG_HEUN; // Random Number Generator for Heun
 // NEQ: number of Equations
 // e.g., NEQ=20 for a network of 10 nodes with dynamics in each node given by 2 odes 
 template <size_t NEQ>
-class StochasticHeun {
+class StochasticHeun 
+{
 private:
 	// boost::random::mt19937 RNG_HEUN; 
 public:
 	typedef std::array <double,NEQ> state_type;
 	typedef boost::numeric::odeint::stepper_tag stepper_category;
-	StochasticHeun (int seed) { RNG_HEUN.seed(seed); } 				// seed for RNG_HEUN   	
+	StochasticHeun (int seed) 
+	{ 
+		RNG_HEUN.seed(seed); // seed for RNG_HEUN
+	}  	
 	~StochasticHeun () {}   	
 
 	template <class S>
-	void do_step(S system, state_type& v0, double t, const double dt) const {
+	void do_step(S system, state_type& v0, double t, const double dt) const 
+	{
 		// define Gaussian noise generator  
     	boost::random::normal_distribution<double> gaussian_noise(0.0,1.0);	 
     	// and generate white noise for every node i
     	state_type noise;
-		for (size_t i=0; i<NEQ; ++i) {
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			noise[i] = gaussian_noise(RNG_HEUN);
 		}
 	
@@ -52,7 +58,8 @@ public:
 
 		// do one integration step (only with the stochastic part)		
 		state_type v0_hat;
-		for (size_t i=0; i<NEQ; ++i) {
+		for (size_t i=0; i<NEQ; ++i) 
+		{
 			v0_hat[i] += stoch[i] * noise[i] * sqrt(dt);
 		}
 
@@ -62,8 +69,9 @@ public:
 		system.second(v0_hat,stoch_hat);
 
 		// do one integration step
-		for (size_t i=0; i<NEQ; ++i) {
-			v0[i] += det[i] * dt + 0.5 * (stoch[i] + stoch_hat[i]) * noise[i] * sqrt(dt);
+		for (size_t i=0; i<NEQ; ++i) 
+		{
+			v0[i] += det[i] * dt + 0.5 * (stoch[i]+stoch_hat[i]) * noise[i] * sqrt(dt);
 		}
 	}
 };//:~StochasticHeun
